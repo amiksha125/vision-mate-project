@@ -1,4 +1,59 @@
-# 
+# import cv2
+# import numpy as np
+# from ultralytics import YOLO
+
+# model = YOLO("yolov8n.pt")
+
+# CONFIDENCE_THRESHOLD = 0.5
+
+# IMPORTANT_OBJECTS = {
+#     "person", "chair", "door", "table",
+#     "car", "bicycle", "bus", "stairs"
+# }
+
+# def get_position(x_center, img_width):
+#     if x_center < img_width / 3:
+#         return "left"
+#     elif x_center < 2 * img_width / 3:
+#         return "front"
+#     else:
+#         return "right"
+
+# def detect_objects(image_bytes):
+#     np_img = np.frombuffer(image_bytes, np.uint8)
+#     img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+
+#     img_height, img_width, _ = img.shape
+#     results = model(img)
+
+#     detections = []
+
+#     for r in results:
+#         for box in r.boxes:
+#             print("RAW DETECTION:", box.cls, box.conf)
+#             confidence = float(box.conf[0])
+#             if confidence < CONFIDENCE_THRESHOLD:
+#                 continue
+
+#             cls_id = int(box.cls[0])
+#             label = model.names[cls_id]
+
+#             if label not in IMPORTANT_OBJECTS:
+#                 continue
+
+#             x1, y1, x2, y2 = box.xyxy[0]
+#             x_center = (x1 + x2) / 2
+
+#             position = get_position(x_center, img_width)
+
+#             detections.append({
+#                 "label": label,
+#                 "confidence": round(confidence, 2),
+#                 "position": position
+#             })
+
+#     return detections
+
 
 import cv2
 import numpy as np
@@ -8,11 +63,26 @@ model = YOLO("yolov8n.pt")
 
 CONFIDENCE_THRESHOLD = 0.5
 
+IMPORTANT_OBJECTS = {
+    "person", "chair", "door", "table",
+    "car", "bicycle", "bus", "stairs"
+}
+
+def get_position(x_center, img_width):
+    if x_center < img_width / 3:
+        return "left"
+    elif x_center < 2 * img_width / 3:
+        return "front"
+    else:
+        return "right"
+
 def detect_objects(image_bytes):
     np_img = np.frombuffer(image_bytes, np.uint8)
     img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
+    img_height, img_width, _ = img.shape
     results = model(img)
+
     detections = []
 
     for r in results:
@@ -24,10 +94,18 @@ def detect_objects(image_bytes):
             cls_id = int(box.cls[0])
             label = model.names[cls_id]
 
+            if label not in IMPORTANT_OBJECTS:
+                continue
+
+            x1, y1, x2, y2 = box.xyxy[0]
+            x_center = (x1 + x2) / 2
+
+            position = get_position(x_center, img_width)
+
             detections.append({
                 "label": label,
-                "confidence": round(confidence, 2)
+                "confidence": round(confidence, 2),
+                "position": position
             })
 
     return detections
-
