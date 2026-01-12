@@ -18,6 +18,7 @@ import io
 
 from app.vision.detector import detect_objects
 from app.context.reasoner import generate_description
+from app.tts.speak import text_to_speech
 
 router = APIRouter()
 
@@ -34,8 +35,11 @@ async def analyze_frame(file: UploadFile = File(...)):
     # 🔴 THIS IS THE FIX (image is passed)
     description = generate_description(detections, image)
 
+    audio_path = text_to_speech(description)
+
     return {
         "description": description,
+        "audio_url": f"/{audio_path}",
         "objects_detected": len(detections)
     }
 
