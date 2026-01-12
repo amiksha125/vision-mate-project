@@ -183,7 +183,6 @@ The frontend simply plays the returned audio URL.”
 
 “Audio files are generated dynamically with UUID-based filenames and stored under a static directory. This avoids overwriting and caching issues while allowing direct frontend playback.”
 
-If interviewer says:
 
 “Your audio sounds the same every time”
 
@@ -191,3 +190,8 @@ You say:
 
 “That’s expected. Text-to-speech generates identical audio for identical text.
 We use UUID filenames to prevent caching and overwriting, not to alter speech content.”
+
+
+VisionMate estimates distance using bounding box area relative to image size.
+This monocular vision approach avoids depth sensors while still providing
+meaningful proximity awareness for users.
