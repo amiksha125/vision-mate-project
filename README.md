@@ -195,3 +195,5 @@ We use UUID filenames to prevent caching and overwriting, not to alter speech co
 VisionMate estimates distance using bounding box area relative to image size.
 This monocular vision approach avoids depth sensors while still providing
 meaningful proximity awareness for users.
+
+VisionMate prioritizes safety by overriding scene narration with danger alerts when a high-risk object is detected very close to the user.

@@ -31,13 +31,30 @@
 from collections import defaultdict
 from models.scene_caption import generate_scene_caption
 
+DANGER_OBJECTS = {
+    "person", "car", "bus", "bicycle", "stairs"
+}
+
 def generate_description(detections, image):
-    # Fallback: no detections
+    # 🚨 Step 1: Danger alert check
+    for det in detections:
+        if (
+            det["label"] in DANGER_OBJECTS
+            and det["distance"] == "very close"
+        ):
+            position = det["position"]
+            label = det["label"]
+
+            if position == "front":
+                return f"Warning! {label} very close in front of you. Please be careful."
+            else:
+                return f"Warning! {label} very close on your {position}. Please be careful."
+
+    # 🟡 Step 2: Fallback to normal reasoning
     if not detections:
         caption = generate_scene_caption(image)
         return f"I see {caption}."
 
-    # Group by (position, distance)
     scene_map = defaultdict(set)
 
     for det in detections:
@@ -59,3 +76,4 @@ def generate_description(detections, image):
             )
 
     return " ".join(sentences)
+
