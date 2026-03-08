@@ -197,3 +197,27 @@ This monocular vision approach avoids depth sensors while still providing
 meaningful proximity awareness for users.
 
 VisionMate prioritizes safety by overriding scene narration with danger alerts when a high-risk object is detected very close to the user.
+
+
+Real-Time Frame Processing
+
+VisionMate supports real-time visual assistance by processing camera frames continuously.
+
+Each frame undergoes:
+
+Object Detection (YOLOv8)
+
+Spatial Reasoning (left / right / front)
+
+Distance Estimation
+
+Danger Alert Prioritization
+
+Text-to-Speech Output
+
+This allows VisionMate to guide visually impaired users in dynamic environments.
+
+Cannot properly test streaming until the UI is built, because:
+The frontend camera will capture frames
+Convert them to base64
+Send them to /analyze-frame-stream
