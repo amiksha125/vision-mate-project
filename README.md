@@ -221,3 +221,39 @@ Cannot properly test streaming until the UI is built, because:
 The frontend camera will capture frames
 Convert them to base64
 Send them to /analyze-frame-stream
+
+# Priority Filtering
+
+Problem right now:
+
+"There is a person on your left.
+There is a bicycle on your right.
+There is a chair in front."
+
+Too much speech and frames change fastly.
+
+Instead:
+"Person very close in front of you."
+This makes VisionMate smart.
+
+Priority Logic
+
+We rank objects by:
+1️⃣ Distance priority
+very close > close > far
+2️⃣ Object importance
+person > car > bicycle > bus > stairs > others
+3️⃣ Speak only top 2 objects
+
+
+If interviewer asks:
+
+"How would this work in real life?"
+
+Answer:
+
+Currently VisionMate runs on a laptop webcam for demonstration. In real-world deployment, the system would run on a smartphone or wearable camera where the rear camera captures the environment ahead of the user.
+
+This shows practical understanding.
+
+VisionMate is demonstrated using a laptop webcam. In real-world deployment, the system would use the rear camera of a smartphone or wearable device to capture the environment in front of the user.
